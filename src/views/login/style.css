@@ -120,3 +120,14 @@ form .form-control {
 .right .ilustration .text p {
     color: #B7A9E3;
 }
+
+@media (max-width: 800px){
+    .right {
+        display: none;
+    }
+
+    .kartu {
+        width: 120%;
+    }
+
+}
