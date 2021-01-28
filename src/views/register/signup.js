@@ -1,33 +1,49 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 // import css
-import "../login/style.css"
+import "../register/signup.css"
 import logo from "../../img/logo.png"
 // import sweetAlert
 import Swal from 'sweetalert2'
-// import react-icons
-import { HiArrowNarrowRight } from "react-icons/hi";
-// import react-bootstrap
-import { Button, Form, Col, Row } from "react-bootstrap"
 // import img
 import eclipse1 from "../../img/Ellipse 3.png"
 import eclipse2 from "../../img/Ellipse 4.png"
 import ilus from "../../img/illustration.png"
+import { Form } from "react-bootstrap";
+import { Link } from "react-router-dom"
+
+
+
 
 
 
 const Login = () => {
 
-    const history = useHistory()
-
+    const [username, setUsername] = useState('')
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const history = useHistory()
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const getEmail = (e) => {
+        setEmail(e.target.value)
+    }
+    const getUsername = (e) => {
+        setUsername(e.target.value)
+    }
+    const getName = (e) => {
+        setName(e.target.value)
+    }
 
+    const getPassword = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const register = () => {
         const data = {
+            name: name,
+            username: username,
             email: email,
             password: password
         }
@@ -38,16 +54,14 @@ const Login = () => {
             backdrop: `rgba(0,0,123,0.4)`
         })
 
-        axios.post("https://restapilogin.herokuapp.com/auth/login", data)
+        axios.post("https://restapilogin.herokuapp.com/register", data)
             .then(async (res) => {
                 await Swal.fire({
                     icon: 'success',
                     title: res.data.msg,
                     backdrop: `rgba(0,0,123,0.4)`
                 })
-                localStorage.setItem('isAuth', 1);
-                localStorage.setItem('userData', JSON.stringify(res.data));
-                history.push("/auth/dashboard")
+                history.push("/")
             }).catch(e => {
                 Swal.fire({
                     icon: 'error',
@@ -60,42 +74,34 @@ const Login = () => {
     return (
         <div className='d-flex flex-row'>
             <div className='left'>
-                <div className="logo">
-                    <img src={logo} alt='logo' />
-                </div>
-                <h3 className='title'>Log In and Learn The Report</h3>
-                <p className='summary'>
-                    We provide variant data that you can use it in order <br />
-                         to get the better perfomance at sales
-                        </p>
                 <div className='kartu d-flex flex-column'>
-                    <Form onSubmit={handleLogin}>
-                        <div class="mb-3">
-                            <label class="form-label">Email address</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={email}
-                                onChange={(e) => { setEmail(e.target.value) }} />
+                    <div className='top d-flex flex-row mb-3'>
+                        <div className="logo d-flex justify-content-center">
+                            <img src={logo} alt='logo' />
                         </div>
-                        <div>
-                            <label class="form-label">Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }} />
+                    </div>
+                    <Form>
+                        <div class="mb-2">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" value={name} onChange={getName} />
                         </div>
-                        <div className='forgot mb-3 mt-1'>
-                            <a href="#">Forgot My Password</a>
+                        <div class="mb-2">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" value={username} onChange={getUsername} />
                         </div>
-                        <button type="submit" class="btn btn-primary signin">
-                            Login
+                        <div class="mb-2">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" value={email} onChange={getEmail} />
+                        </div>
+                        <div className='mb-4'>
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" value={password} onChange={getPassword} />
+                        </div>
+                        <button type="button" class="btn btn-primary signin" onClick={register}>
+                            Register
                             </button>
                         <div className='newaccount'>
-                            <Link to="/register">
-                                Create New Account
-                            </Link>
+                            <Link to='/'>Have Account ?</Link>
                         </div>
                     </Form>
                 </div>
