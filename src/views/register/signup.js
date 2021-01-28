@@ -68,6 +68,10 @@ const Login = () => {
                     title: 'Oops...',
                     text: e.response.data.msg
                 })
+                setName('')
+                setUsername('')
+                setEmail('')
+                setPassword('')
             })
     }
 
